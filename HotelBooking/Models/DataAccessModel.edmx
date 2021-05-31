@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HotelAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookingDetails">
+          <Key>
+            <PropertyRef Name="RoomBookingID" />
+          </Key>
+          <Property Name="RoomBookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookedFrom" Type="date" />
+          <Property Name="BookedUntil" Type="date" />
+          <Property Name="BookingStatus" Type="varchar" MaxLength="10" />
+          <Property Name="PaymentPaidStatus" Type="varchar" MaxLength="20" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="HotelID" Type="int" />
+          <Property Name="NoOfRoomsBook" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerEmail" Type="varchar" MaxLength="100" />
+          <Property Name="CustomerPassword" Type="varchar" MaxLength="10" />
+          <Property Name="HotelID" Type="int" />
+        </EntityType>
+        <EntityType Name="Hotels">
+          <Key>
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="HotelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="HotelName" Type="varchar" MaxLength="50" />
+          <Property Name="TotalRoomAvailable" Type="int" />
+          <Property Name="PresentRoomAvailable" Type="int" />
+          <Property Name="PricePerRoom" Type="int" />
+          <Property Name="BookingsMade" Type="int" />
+        </EntityType>
+        <Association Name="FK__BookingDe__Custo__6EF57B66">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__BookingDe__Hotel__6FE99F9F">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customers__Hotel__5BE2A6F2">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelAPIModelStoreContainer">
+          <EntitySet Name="BookingDetails" EntityType="Self.BookingDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__BookingDe__Custo__6EF57B66" Association="Self.FK__BookingDe__Custo__6EF57B66">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingDe__Hotel__6FE99F9F" Association="Self.FK__BookingDe__Hotel__6FE99F9F">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customers__Hotel__5BE2A6F2" Association="Self.FK__Customers__Hotel__5BE2A6F2">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelAPIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookingDetail">
+          <Key>
+            <PropertyRef Name="RoomBookingID" />
+          </Key>
+          <Property Name="RoomBookingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookedFrom" Type="DateTime" Precision="0" />
+          <Property Name="BookedUntil" Type="DateTime" Precision="0" />
+          <Property Name="BookingStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentPaidStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerID" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__BookingDe__Custo__5EBF139D" FromRole="BookingDetails" ToRole="Customers" />
+          <Property Name="HotelID" Type="Int32" />
+          <NavigationProperty Name="Hotel" Relationship="HotelAPIModel.FK__BookingDe__Hotel__628FA481" FromRole="BookingDetail" ToRole="Hotel" />
+          <Property Name="NoOfRoomsBook" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerPassword" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="HotelID" Type="Int32" />
+          <NavigationProperty Name="BookingDetails" Relationship="Self.FK__BookingDe__Custo__5EBF139D" FromRole="Customers" ToRole="BookingDetails" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK__Customers__Hotel__5BE2A6F2" FromRole="Customers" ToRole="Hotels" />
+        </EntityType>
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="HotelID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="HotelName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TotalRoomAvailable" Type="Int32" />
+          <Property Name="PresentRoomAvailable" Type="Int32" />
+          <Property Name="PricePerRoom" Type="Int32" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK__Customers__Hotel__5BE2A6F2" FromRole="Hotels" ToRole="Customers" />
+          <NavigationProperty Name="BookingDetails" Relationship="HotelAPIModel.FK__BookingDe__Hotel__628FA481" FromRole="Hotel" ToRole="BookingDetail" />
+          <Property Name="BookingsMade" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__BookingDe__Custo__5EBF139D">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="BookingDetails" Type="Self.BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Customers__Hotel__5BE2A6F2">
+          <End Role="Hotels" Type="Self.Hotel" Multiplicity="0..1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelAPIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookingDetails" EntityType="Self.BookingDetail" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotel" />
+          <AssociationSet Name="FK__BookingDe__Custo__5EBF139D" Association="Self.FK__BookingDe__Custo__5EBF139D">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Customers__Hotel__5BE2A6F2" Association="Self.FK__Customers__Hotel__5BE2A6F2">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__BookingDe__Hotel__628FA481" Association="HotelAPIModel.FK__BookingDe__Hotel__628FA481">
+            <End Role="Hotel" EntitySet="Hotels" />
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK__BookingDe__Hotel__628FA481">
+          <End Type="HotelAPIModel.Hotel" Role="Hotel" Multiplicity="0..1" />
+          <End Type="HotelAPIModel.BookingDetail" Role="BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotel">
+              <PropertyRef Name="HotelID" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HotelAPIModelStoreContainer" CdmEntityContainer="HotelAPIEntities">
+          <EntitySetMapping Name="BookingDetails">
+            <EntityTypeMapping TypeName="HotelAPIModel.BookingDetail">
+              <MappingFragment StoreEntitySet="BookingDetails">
+                <ScalarProperty Name="NoOfRoomsBook" ColumnName="NoOfRoomsBook" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="RoomBookingID" ColumnName="RoomBookingID" />
+                <ScalarProperty Name="BookedFrom" ColumnName="BookedFrom" />
+                <ScalarProperty Name="BookedUntil" ColumnName="BookedUntil" />
+                <ScalarProperty Name="BookingStatus" ColumnName="BookingStatus" />
+                <ScalarProperty Name="PaymentPaidStatus" ColumnName="PaymentPaidStatus" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="HotelAPIModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+                <ScalarProperty Name="CustomerPassword" ColumnName="CustomerPassword" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotels">
+            <EntityTypeMapping TypeName="HotelAPIModel.Hotel">
+              <MappingFragment StoreEntitySet="Hotels">
+                <ScalarProperty Name="BookingsMade" ColumnName="BookingsMade" />
+                <ScalarProperty Name="HotelID" ColumnName="HotelID" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="HotelName" ColumnName="HotelName" />
+                <ScalarProperty Name="TotalRoomAvailable" ColumnName="TotalRoomAvailable" />
+                <ScalarProperty Name="PresentRoomAvailable" ColumnName="PresentRoomAvailable" />
+                <ScalarProperty Name="PricePerRoom" ColumnName="PricePerRoom" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

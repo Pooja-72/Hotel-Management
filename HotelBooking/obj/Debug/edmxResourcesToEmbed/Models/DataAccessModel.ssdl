@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HotelAPIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="BookingDetails">
+    <Key>
+      <PropertyRef Name="RoomBookingID" />
+    </Key>
+    <Property Name="RoomBookingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BookedFrom" Type="date" />
+    <Property Name="BookedUntil" Type="date" />
+    <Property Name="BookingStatus" Type="varchar" MaxLength="10" />
+    <Property Name="PaymentPaidStatus" Type="varchar" MaxLength="20" />
+    <Property Name="CustomerID" Type="int" />
+    <Property Name="HotelID" Type="int" />
+    <Property Name="NoOfRoomsBook" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Customers">
+    <Key>
+      <PropertyRef Name="CustomerID" />
+    </Key>
+    <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="50" />
+    <Property Name="CustomerEmail" Type="varchar" MaxLength="100" />
+    <Property Name="CustomerPassword" Type="varchar" MaxLength="10" />
+    <Property Name="HotelID" Type="int" />
+  </EntityType>
+  <EntityType Name="Hotels">
+    <Key>
+      <PropertyRef Name="HotelID" />
+    </Key>
+    <Property Name="HotelID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="50" />
+    <Property Name="HotelName" Type="varchar" MaxLength="50" />
+    <Property Name="TotalRoomAvailable" Type="int" />
+    <Property Name="PresentRoomAvailable" Type="int" />
+    <Property Name="PricePerRoom" Type="int" />
+    <Property Name="BookingsMade" Type="int" />
+  </EntityType>
+  <Association Name="FK__BookingDe__Custo__6EF57B66">
+    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+    <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customers">
+        <PropertyRef Name="CustomerID" />
+      </Principal>
+      <Dependent Role="BookingDetails">
+        <PropertyRef Name="CustomerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__BookingDe__Hotel__6FE99F9F">
+    <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+    <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotels">
+        <PropertyRef Name="HotelID" />
+      </Principal>
+      <Dependent Role="BookingDetails">
+        <PropertyRef Name="HotelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Customers__Hotel__5BE2A6F2">
+    <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+    <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotels">
+        <PropertyRef Name="HotelID" />
+      </Principal>
+      <Dependent Role="Customers">
+        <PropertyRef Name="HotelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HotelAPIModelStoreContainer">
+    <EntitySet Name="BookingDetails" EntityType="Self.BookingDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__BookingDe__Custo__6EF57B66" Association="Self.FK__BookingDe__Custo__6EF57B66">
+      <End Role="Customers" EntitySet="Customers" />
+      <End Role="BookingDetails" EntitySet="BookingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__BookingDe__Hotel__6FE99F9F" Association="Self.FK__BookingDe__Hotel__6FE99F9F">
+      <End Role="Hotels" EntitySet="Hotels" />
+      <End Role="BookingDetails" EntitySet="BookingDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Customers__Hotel__5BE2A6F2" Association="Self.FK__Customers__Hotel__5BE2A6F2">
+      <End Role="Hotels" EntitySet="Hotels" />
+      <End Role="Customers" EntitySet="Customers" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
