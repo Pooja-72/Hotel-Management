@@ -14,7 +14,7 @@ namespace SignUpPage
     {
 
         /// <summary>
-        /// form1 control.
+        /// form1 control. use comment wisely it is for information
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
