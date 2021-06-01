@@ -15,7 +15,7 @@
   background-size: cover;}  
 
 img {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 button {   
